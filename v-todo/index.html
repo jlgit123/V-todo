@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>V-Todo</title>
+		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
+		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+		<!-- CSS overrides - remove if you don't need it -->
+		<link rel="stylesheet" href="css/app.css">
+	</head>
+	<body>
+		<section class="todoapp" id="todoapp">
+			<header class="header">
+				<!-- 避免出现{{}} -->
+				<h1 v-text = "title"></h1>
+				<!-- 添加任务 What needs to be done?-->
+				<input v-app-focus @keyup.enter="addTask" class="new-todo" placeholder="这里写下待完成任务" autofocus>
+			</header>
+			<!-- 1.tasks.length的值为0时，表示false，则不显示 -->
+			<!-- 2.可以使用 Vue 提供的 template 元素，页面渲染后不会有 template 元素，
+				但是不能使用 v-show, 因为template渲染后就消失了， 
+				而v-show是 display:none控制显示隐藏的,需要使用 v-if 才可以-->
+			<template v-if="tasks.length">
+				<section class="main">
+					<input v-model="toggleAll" id="toggle-all" class="toggle-all" type="checkbox">
+					<label for="toggle-all">Mark all as complete</label>
+					<ul class="todo-list">
+						<!-- 任务列表 -->
+						<!-- 0.`editing`  `completed` 是列表自带的class样式名 -->
+						<!-- 1.v-for迭代显示tasks中内容 2.:class={key为class样式名，value为获取的数据true/false} -->
+						<li v-for="(item,index) in filterTasks" :class="{completed: item.completed, editing: item === currentTask}">
+							<div class="view">
+								<!-- 1.复选框展示内容 2.v-model绑定状态值是否选中 -->
+								<input type="checkbox" class="toggle" v-model="item.completed">
+								<!-- 2.{{ content }}显示内容 -->
+									<!-- (a).双击进入编辑状态，同时li标签样式切换为.editing -->
+								<label @dblclick="toEdit(item)">{{item.content}}</label>
+								<!-- 3.:value 绑定id删除 -->
+								<button class="destroy" :value="item.id" @click="removeTask(index)"></button>	
+
+							</div>
+							<!-- (b).进入编辑状态后,输入框显示原内容，并且会自动获取编辑焦点 -->
+							<!-- (c).输入状态下，按Esc/失去焦点blur取消编辑，.editing样式被移除 -->
+							<input v-todo-focus="item === currentTask" 
+							@keyup.enter="finishEdit(item, index, $event)" @blur="finishEdit(item, index, $event)"
+							@keyup.esc='cancleEdit' class="edit" :value="item.content">
+							
+						</li>
+
+
+					</ul>
+				</section>
+				<footer class="footer">
+					<!-- This should be `0 items left` by default -->
+					<span class="todo-count">
+						{{remaining === 0?'全部完成':remaining+'个待完成'}}
+						<!-- <strong>{{remaining}}</strong> 个任务未完成 -->
+					</span>
+
+					<!-- Remove this if you don't implement routing -->
+					<ul class="filters">
+						<li>
+							<a :class="{selected: filterStatus === 'all'}" href="#/">全部</a>
+						</li>
+						<li>
+							<a :class="{selected: filterStatus === 'active'}" href="#/active">待完成</a>
+						</li>
+						<li>
+							<a :class="{selected: filterStatus === 'completed'}"  href="#/completed">已完成</a>
+						</li>
+					</ul>
+					<!-- 1.没有已完成任务项时，隐藏显示 -->
+					<!-- 2.v-if判断当总任务数 大于 未完成任务数，则显示该按钮 -->
+					<button v-show="tasks.length > remaining"
+					@click="removeCompleted" class="clear-completed">清除已完成</button>
+				</footer>
+			</template>
+
+		</section>
+		<footer class="info">
+			<p><span style="color: #ead7d7;font-size: 13px;">双击 </span>编辑任务</p>
+			
+			<p><span style="color: #ead7d7;font-size: 13px;">Esc </span>取消编辑</p>
+			
+			<p><span style="color: #ead7d7;font-size: 13px;">Enter </span>保存更改</p>
+			<!-- Remove the below line ↓ -->
+			<!-- <p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+			<p>Created by <a href="http://todomvc.com">you</a></p> -->
+		</footer>
+		<!-- Scripts here. Don't remove ↓ -->
+		<script src="node_modules/vue/dist/vue.js"></script>
+		<script src="node_modules/todomvc-common/base.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
