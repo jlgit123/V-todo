@@ -1,19 +1,14 @@
-# TodoMVC App Template
+# V-Todo
+V-Todo是一款提供任务事项的添加、删除、编辑和过滤显示等功能的简易备忘录，技术栈为Vue.js。
+![](v-todo.png)
+
+# 模板
+基于TodoMVC App Template
 
 > Template used for creating [TodoMVC](http://todomvc.com) apps
 
-![](https://github.com/tastejs/todomvc-app-css/raw/master/screenshot.png)
-
-
-## Getting started
-
-- Read the [Application Specification](https://github.com/tastejs/todomvc/blob/master/app-spec.md) before touching the template.
-
-- Delete this file and rename `app-readme.md` to `readme.md` and fill it out.
-
-- Clone this repo and install the dependencies with [npm](https://npmjs.com) by running: `npm install`.
-
-
-## License
-
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />This <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" rel="dct:type">work</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sindresorhus.com" property="cc:attributionName" rel="cc:attributionURL">TasteJS</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.en_US">Creative Commons Attribution 4.0 International License</a>.
+# Vue
+* 绑定模板样式实现任务状态的切换显示
+* 采用**计算属性的双向绑定**实现复选框的状态同步
+* 基于**路由状态切换**过滤不同状态的任务事项
+* 使用**localStorage**实现数据的持久化存储
